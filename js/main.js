@@ -3,7 +3,7 @@
 (function(){
 
     //pseudo-global variables
-    var attrArray = ["varA", "varB", "varC", "varD", "varE"]; //list of attributes csv
+    var attrArray = ["acre_tot", "farm_acre_tot", "pastr_acre_tot", "farm_perc_tot", "acres_top_ag", "pastr_perc_tot"]; //list of attributes csv
     var expressed = attrArray[0]; //attribute at index[0] (starting point)
     
     //chart frame dimensions
@@ -62,12 +62,12 @@
         call back function will execute after all the data is loaded
         ____________________________________________________________________________*/
         promises.push(d3.csv("data/farm_data.csv")); 
-        promises.push(d3.json("data/states_USA.topojson"));
+        promises.push(d3.json("data/us_whole.topojson"));
         promises.push(d3.json("data/contig_48.topojson")); 
         var all = Promise.all(promises).then(callback);
         
-        console.log("this is promises: ", promises);
-        console.log("this is Promise.all : ", all);
+        //console.log("this is promises: ", promises);
+        //console.log("this is Promise.all : ", all);
         
         
         function callback (data) {
@@ -82,6 +82,7 @@
             var usWhole = topojson.feature(usCountry, usCountry.objects.usWhole),
                 states48 = topojson.feature(usStates, usStates.objects.contig_48).features;
                 console.log("this is the states: ", states48);
+                console.log("this is the country: ", usWhole);
                 
             //add the US to the map one datum
              var usBackground = map.append("path")
@@ -106,7 +107,6 @@
         };
     }; //end of setMap()
     
-    
     function setGraticule(map, path){
         // graticule generator
         var graticule = d3.geoGraticule()
@@ -130,7 +130,7 @@
             .attr("d", path); //project graticule lines
     };
     
-    function joinData(usStates, csvData){
+    function joinData(usStates, csvData){ 
         
         //loop through csv to assign each set of csv attribute values to geojson 
         for (var i=0; i<csvData.length; i++){
@@ -146,17 +146,20 @@
                 //where primary keys match, transfer csv data to geojson properties object
                 if (geojsonKey == csvKey){
     
+                    console.log("correct key match!!");
                     //assign all attributes and values
                     attrArray.forEach(function(attr){
-                        var values = parseFloat(csvState[attr]); //get csv attribute value
-                        geojsonProps[attr] = values; //assign attribute and value to geojson properties
+                        var val = Number.parseFloat(csvState[attr]); //get csv attribute value
+                        //console.log("this is the parseFloat:", val);
+                        
+                        geojsonProps[attr] = val; //assign attribute and value to geojson properties
                     });
                 };
             };
         };
     
     
-        return usStates;
+        return usStates; 
     };
     
     //Create Color Scale 
@@ -204,7 +207,7 @@
         //make sure attribute value is a number
         var values = Number.parseFloat(props[expressed]);
         //if attribute value exists, assign a color; otherwise assign gray
-        if (typeof values == 'number' && !isNaN(values)){
+        if (typeof values == 'number' &&!isNaN(values)){ //take out &&!isNaN(values)
             return colorScale(values);
         } else {
             return "#CCC";
@@ -228,12 +231,12 @@
             
             .on("mouseover", function(d){
                 console.log("this is d in the mouseover: ",d);
-                //highlight(d.properties);//check for needing (d.currentTarget.__data__)
+                var light = highlight(d.properties);//check for needing (d.currentTarget.__data__) vs d.properties
             })
-           /* .on("mouseout", function(d){
+            .on("mouseout", function(d){
                 dehighlight(d.properties);
             })
-            .on("mousemove", moveLabel); */
+            .on("mousemove", moveLabel); 
         
         //below Example 2.2 line 16...add style descriptor to each path
         var desc = states.append("desc")
@@ -241,7 +244,7 @@
         console.log("this is the description: ", desc);
           
     };
-    
+    console.log("this is before setChart");
     //function to create coordinated bar chart
     function setChart(csvData, colorScale){
     
@@ -269,6 +272,7 @@
                 return b[expressed]-a[expressed]
             })
             .attr("class", function(d){
+                console.log("bars",d);
                 return "bar " + d.name;
             })
             .attr("width", chartInnerWidth / csvData.length - 1)
@@ -409,7 +413,7 @@
     };
     
     //function to highlight enumeration units and bars
-    /*function highlight(props){
+    function highlight(props){
         //change stroke
         var selected = d3.selectAll("." + props.name)
         .style("stroke", "blue")
@@ -443,7 +447,7 @@
             return styleObject[styleName];
         };
     };
-    */
+    
     //function to create dynamic label
     function setLabel(props){
         //label content
@@ -462,11 +466,9 @@
             .html(props.name);
     };
     
-    //function to move info label with mouse 
-    //Example 2.8 line 1...function to move info label with mouse
-    /*//move info label with mouse
-    function moveLabel(event){
-        //use coordinates of mousemove event to set label coordinates
+    //function to move info label with mouse  (D3v6?)
+    /*function moveLabel(event){
+        //use coordinates of mousemove event to set label coordinates 
         var x = event.clientX + 10,
             y = event.clientY - 75;    
         
@@ -475,7 +477,9 @@
             .style("top", y + "px");
     }; 
     //end moveLabel()*/
-    /*function moveLabel(){
+    
+    //function to move info label with mouse 
+    function moveLabel(){ //olderversion
         //get width of label
         var labelWidth = d3.select(".infolabel")
             .node()
@@ -496,6 +500,6 @@
         d3.select(".infolabel")
             .style("left", x + "px")
             .style("top", y + "px");    
-    };  */
+    };  
     
     })(); //last line of main.js
