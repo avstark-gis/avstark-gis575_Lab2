@@ -9,7 +9,7 @@
     //chart frame dimensions
     var chartWidth = window.innerWidth * 0.425,
         chartHeight = 473,
-        leftPadding = 25,
+        leftPadding = 75,
         rightPadding = 2,
         topBottomPadding = 5,
         chartInnerWidth = chartWidth - leftPadding - rightPadding,
@@ -19,7 +19,7 @@
     //create a scale to size bars proportionally to frame and for axis
     var yScale = d3.scaleLinear()
         .range([chartHeight - 10, 0])
-        .domain([0, 88*1.1]); // csv first column max = 88
+        .domain([0, 127036184*1.1]); // csv first column max = 88
     
     
     //begin script when window loads
