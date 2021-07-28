@@ -3,7 +3,7 @@
 (function(){
 
     //pseudo-global variables
-    var attrArray = ["acre_tot", "farm_acre_tot", "pastr_acre_tot", "farm_perc_tot", "acres_top_ag", "pastr_perc_tot"]; //list of attributes csv
+    var attrArray = ["farm_acre_tot", "pastr_acre_tot", "farm_perc_tot", "acres_top_ag", "pastr_perc_tot"]; //list of attributes csv
     var expressed = attrArray[0]; //attribute at index[0] (starting point)
     
     //chart frame dimensions
@@ -99,10 +99,10 @@
             setEnumerationUnits(states48, map, path, colorScale);
     
             //add coordinated visualization to the map
-            //setChart(csvData, colorScale);
+            setChart(csvData, colorScale);
     
             // dropdown
-            //createDropdown(csvData);
+            createDropdown(csvData);
     
         };
     }; //end of setMap()
@@ -185,7 +185,7 @@
         };
     
         //cluster data using ckmeans(simple-statistics) clustering algorithm to create natural breaks
-        var clusters = ss.ckmeans(domainArray, 5);
+        var clusters = ss.ckmeans(domainArray, 6);
         console.log("this is clusters: ",clusters);
         //reset domain array to cluster minimums
         domainArray = clusters.map(function(d){
@@ -206,8 +206,10 @@
     function choropleth(props, colorScale){
         //make sure attribute value is a number
         var values = Number.parseFloat(props[expressed]);
+        
         //if attribute value exists, assign a color; otherwise assign gray
         if (typeof values == 'number' &&!isNaN(values)){ //take out &&!isNaN(values)
+            console.log("this is in choropleth props:", props);
             return colorScale(values);
         } else {
             return "#CCC";
@@ -231,7 +233,8 @@
             
             .on("mouseover", function(d){
                 console.log("this is d in the mouseover: ",d);
-                var light = highlight(d.properties);//check for needing (d.currentTarget.__data__) vs d.properties
+                highlight(d.properties);//check for needing (d.currentTarget.__data__) vs d.properties
+                
             })
             .on("mouseout", function(d){
                 dehighlight(d.properties);
@@ -241,10 +244,9 @@
         //below Example 2.2 line 16...add style descriptor to each path
         var desc = states.append("desc")
         .text('{"stroke": "#000", "stroke-width": "0.5px"}');
-        console.log("this is the description: ", desc);
           
     };
-    console.log("this is before setChart");
+    
     //function to create coordinated bar chart
     function setChart(csvData, colorScale){
     
@@ -367,11 +369,11 @@
         var colorScale = makeColorScale(csvData);
     
         //recolor enumeration units
-        var regions = d3.selectAll(".regions")
+        var states = d3.selectAll(".states")
             .transition()
             .duration(1000)
             .style("fill", function(d){
-                return choropleth(d.properties, colorScale)
+                return choropleth(d.properties, colorScale) //this d.properties also linked to bars (if this breaks, bars break)
             });
     
         //re-sort, resize, and recolor bars
@@ -409,7 +411,7 @@
         
         //add text to chart title
         var chartTitle = d3.select(".chartTitle")
-            .text("Number of Variable " + expressed[3] + " in each region");
+            .text("Number of Variable " + expressed + " in each State"); //took this out  " + expressed[3] + "
     };
     
     //function to highlight enumeration units and bars
