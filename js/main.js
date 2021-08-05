@@ -3,13 +3,14 @@
 (function(){
 
     //pseudo-global variables
-    var attrArray = ["farm_acre_tot", "pastr_acre_tot", "farm_perc_tot", "acres_top_ag", "pastr_perc_tot"]; //list of attributes csv
+    var attrArray = ["Total Ag. Land Use Acres","% Ag. Land in Total Acres","Total Farmland Acres", "Total Pastureland Acres", "% Ag. Land in Farms", "% Ag. Land in Pasture"]; //list of attributes csv
+    //var attrArray2 =["total_acres"]
     var expressed = attrArray[0]; //attribute at index[0] (starting point)
     
     //chart frame dimensions
     var chartWidth = window.innerWidth * 0.425,
         chartHeight = 473,
-        leftPadding = 75,
+        leftPadding = 75, //make sure big enough to show all the axis labels
         rightPadding = 2,
         topBottomPadding = 5,
         chartInnerWidth = chartWidth - leftPadding - rightPadding,
@@ -19,7 +20,7 @@
     //create a scale to size bars proportionally to frame and for axis
     var yScale = d3.scaleLinear()
         .range([chartHeight - 10, 0])
-        .domain([0, 127036184*1.1]); // csv first column max = 88
+        .domain([0, 127036184*1.1]); // csv first column max. Max number of acres total by state = Texas = 127036184
     
     
     //begin script when window loads
@@ -39,6 +40,7 @@
             .attr("class", "map")
             .attr("width", width)
             .attr("height", height);
+            
     
         //Albers Conic Projection center is 
         var projection = d3.geoAlbers()
@@ -66,7 +68,7 @@
         promises.push(d3.json("data/contig_48.topojson")); 
         var all = Promise.all(promises).then(callback);
         
-        //console.log("this is promises: ", promises);
+        console.log("this is promises: ", promises);
         //console.log("this is Promise.all : ", all);
         
         
@@ -106,6 +108,8 @@
     
         };
     }; //end of setMap()
+
+   
     
     function setGraticule(map, path){
         // graticule generator
@@ -166,12 +170,12 @@
     function makeColorScale(data){
         //ColorBrewer
         var colorClasses = [
-            "#EDF8FB",
-            "#B2E2E2",
-            "#66C2A4",
-            "#2CA25F",
-            "#006D2C"
-        ];
+            "#edf8fb",
+            "#ccece6",
+            "#99d8c9",
+            "#66c2a4",
+            "#2ca25f",
+            "#006d2c"];  //http://bl.ocks.org/mhkeller/10504471
     
         //create color scale generator
         var colorScale = d3.scaleThreshold()
@@ -288,21 +292,22 @@
     
         //create a text element for the chart title
         var chartTitle = chart.append("text")
-            .attr("x", 40)
-            .attr("y", 40)
-            .attr("class", "chartTitle")
-            .text("Number of Variable " + expressed[3] + " in each region");
+            .attr("x", 200)
+            .attr("y", 30)
+            .attr("class", "chartTitle");
+            //.text("Number of Acres " + expressed[3] + " in each region");
     
         //create vertical axis generator
         var yAxis = d3.axisLeft()
+             
             .scale(yScale);
     
         //place axis
         var axis = chart.append("g")
             .attr("class", "axis")
             .attr("transform", translate)
-            .call(yAxis);
-    
+            .call(yAxis); 
+
         //create frame for chart border
         var chartFrame = chart.append("rect")
             .attr("class", "chartFrame")
@@ -328,7 +333,7 @@
         var titleOption = dropdown.append("option")
             .attr("class", "titleOption")
             .attr("disabled", "true")
-            .text("Select Attribute");
+            .text("Choose Data to Display");
     
         //add attribute name options
         var attrOptions = dropdown.selectAll("attrOptions")
@@ -336,7 +341,7 @@
             .enter()
             .append("option")
             .attr("value", function(d){ return d })
-            .text(function(d){ return d });
+            .text(function(d){ return d });  //+ " in millions of acres"
     };
     
     //Example 1.4 line 14...dropdown change listener handler
@@ -356,6 +361,7 @@
         d3.select(".axis").remove();
         var yAxis = d3.axisLeft()
             .scale(yScale);
+
     
         //place axis
         var axis = d3.select(".chart")
@@ -364,7 +370,7 @@
             .attr("transform", translate)
             .call(yAxis);
         
-    
+
         //recreate the color scale
         var colorScale = makeColorScale(csvData);
     
@@ -411,7 +417,7 @@
         
         //add text to chart title
         var chartTitle = d3.select(".chartTitle")
-            .text("Number of Variable " + expressed + " in each State"); //took this out  " + expressed[3] + "
+            .text(expressed + " for Each State"); //took this out  " + expressed[3] + "
     };
     
     //function to highlight enumeration units and bars
@@ -453,8 +459,8 @@
     //function to create dynamic label
     function setLabel(props){
         //label content
-        var labelAttribute = "<h1>" + props[expressed] +
-            "</h1><b>" + expressed + "</b>";
+        var labelAttribute = "<span><b>" + props[expressed] + " </b></span>"            
+          + "<span>" + expressed + "</span>";
     
         //create info label div
         var infolabel = d3.select("body")
@@ -468,18 +474,6 @@
             .html(props.name);
     };
     
-    //function to move info label with mouse  (D3v6?)
-    /*function moveLabel(event){
-        //use coordinates of mousemove event to set label coordinates 
-        var x = event.clientX + 10,
-            y = event.clientY - 75;    
-        
-        d3.select(".infolabel")
-            .style("left", x + "px")
-            .style("top", y + "px");
-    }; 
-    //end moveLabel()*/
-    
     //function to move info label with mouse 
     function moveLabel(){ //olderversion
         //get width of label
@@ -490,7 +484,7 @@
     
         //use coordinates of mousemove event to set label coordinates
         var x1 = d3.event.clientX + 10,
-            y1 = d3.event.clientY - 75,
+            y1 = d3.event.clientY - 75, //-75
             x2 = d3.event.clientX - labelWidth - 10,
             y2 = d3.event.clientY + 25;
     
