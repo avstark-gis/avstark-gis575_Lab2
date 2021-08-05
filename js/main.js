@@ -41,7 +41,6 @@
             .attr("width", width)
             .attr("height", height);
             
-    
         //Albers Conic Projection center is 
         var projection = d3.geoAlbers()
             .center([0, 39.83])
