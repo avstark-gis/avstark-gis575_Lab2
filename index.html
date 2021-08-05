@@ -1,38 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width">
-		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
-		<title>Lab 2 D3 Map</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
+	<title>D3 Map | Coordinated Visualization</title>
 
-		<!--put your external stylesheet links here-->
-		<!--<link rel="stylesheet" type ="text/css" href="css/normalize.css">-->
-		<link rel="stylesheet" href="css/style.css">
-		<!--[if IE<9]>
-			<link rel="stylesheet" href="css/style.ie.css">
-		<![endif]-->
-	</head>
+	<!--put your external stylesheet links here-->
+	<!--Google Fonts-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap" rel="stylesheet">
 
-	<body>
-		<!--put your initial page content here-->
-			<div id="mydiv">
-				This is the top of the page.
-			</div>
-		<!--you can also use this space for internal scripts or stylesheets;
-		place these within <script> or <style> tags------------>
-			
-		<!--------put your external script links here---------->
-		<!--script src="https://unpkg.com/topojson@3"></script>-->
-		<!--<script src="https://unpkg.com/topojson@3.0.2/dist/topojson.js"></script>-->
-		
-		
-		<script src="lib/jquery-3.6.0.js"></script>
-		<script src="lib/d3.min.js"></script>
-		<script src="lib/topojson.min.js"></script>
-		<!--<script src="lib/simple-statistics.min.js"></script>-->
-		<script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
-		<script src="js/main.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+
 	
-	</body>
+	<!--Stylesheets-->
+	<!-- Latest compiled and minified CSS Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+	<link rel="stylesheet" type ="text/css" href="css/normalize.css">
+	
+	<link rel="stylesheet" href="css/style.css">
+	<!--[if IE<9]>
+		<link rel="stylesheet" href="css/style.ie.css">
+	<![endif]-->
+</head>			
+<body>
+
+<div class="flex-container" id="jumbo-text-container">
+		<ul id = "sources">
+			<div id = "csv"><a class= "dataSource" href="data/farm_data.csv">Data Used as CSV</a></div>
+			<div id = "agCensus"><a class="dataSource" href="https://www.nass.usda.gov/Publications/AgCensus/2017/index.php" target="_blank">Link to 2017 Ag Census Data</a></div>
+			<div id = "portfolio"><a class="dataSource" href="https://avstark-gis.github.io/avstark-gis-572Portfolio/" target = "_blank">Created By Alissa V Stark</a></div>
+		</ul>
+</div><!--flex-->
+
+<div style= "background-image: url(img/farm.jpg);" id="jumbotron" class="jumbotron jumbotron-fluid">
+	<h1 id="title">Trends in Agricultural Land Use</h1>
+</div><!--jumbo-->	
+	
+
+<!--put your initial page content here-->
+<!----	<div id="mydiv">This is the top of the page.</div>-->
+<!--you can also use this space for internal scripts or stylesheets;
+place these within <script> or <style> tags------------>
+	
+<!--------put your external script links here---------->
+<!--script src="https://unpkg.com/topojson@3"></script>-->
+<!--<script src="https://unpkg.com/topojson@3.0.2/dist/topojson.js"></script>-->
+
+
+<script src="lib/jquery-3.6.0.js"></script>
+<script src="lib/d3.min.js"></script>
+<script src="lib/topojson.min.js"></script>
+<!--<script src="lib/simple-statistics.min.js"></script>-->
+<script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
+<script src="js/main.js"></script>
+
+</body> 
 </html>

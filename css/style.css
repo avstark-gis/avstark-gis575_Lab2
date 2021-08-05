@@ -1,10 +1,100 @@
-.map {
-	border: 3px solid #999;
-	margin: 10px 0 0 20px;
+/*light grey--rgba(128, 128, 128, .17);*/
+/* greyish yellow-- rgba(254, 242, 214, .3);*/
+/* yellow-- rgba(254, 242, 214, .3);*/
+/*rgba(128, 128, 128, .1);*/
+/*'Atkinson Hyperlegible', sans-serif;*/
+/* 'Source Sans Pro', sans-serif;	*/
+
+
+body{
+	background-color: rgba(255, 255, 255, .5);
+	margin: 20px;
+	max-width: 100%;	
 }
+
+#title{
+	font-family:'Atkinson Hyperlegible', sans-serif;
+	font-size: 47px;
+	color: black;
+  	-webkit-text-fill-color: rgba(254, 242, 214, .8); /* Will override color (regardless of order) */
+  	-webkit-text-stroke-width: 1px;
+  	-webkit-text-stroke-color: black;
+	padding-bottom: 20;
+	margin: 0;
+	margin-bottom:	.75em;
+	padding-top: 8px;
+	text-align: center;
+}
+#jumbotron {
+	max-width: auto;
+	height: 180px;
+	text-align: center;
+	background-size: cover;
+	padding: 0px;
+	margin: 0;
+	margin-bottom: 45px;
+}
+#jumbo-text-container {
+	font-size: medium;
+	font-family: 'Source Sans Pro', sans-serif;
+	color:cadetblue;
+	padding: 0;
+	
+}
+#sources{
+	list-style-type: none;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	padding: 5px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin-bottom: 5px;	
+	margin: 0;
+	text-align: center;
+}
+
+#csv{
+	padding-right: 8px;
+}
+#agCensus{
+	padding-right: 5px;
+	padding-left: 5px;
+}
+#portfolio{
+	padding-left: 8px;
+}
+.map{
+	border: 1px solid #999;
+	margin: 13px;
+	position: relative;	
+	width: auto;
+	height: 100%;
+}
+
+/*-----------Dropdown-------------*/
+option {
+	font-weight: normal;
+	background-color: whitesmoke;
+}
+.dropdown {
+	background-color: rgba(275, 95, 14);
+	position: absolute;
+	top: 310px; /*was 30  add extra for the jumbo header*/
+	left: 40px;
+	z-index: 10;
+	font-family: 'Atkinson Hyperlegible', sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+	padding: 2px;
+	border: 1px solid #999;
+	box-shadow: 2px 2px 4px #999;
+}
+
+/*-----------Map Styling-------------*/
 .usBackground{
-	fill: #FFF;
-	stroke: #CCC;
+	fill: rgba(242, 242, 240);						
+	stroke: none;
 	stroke-width: 0px;
 
 }
@@ -13,50 +103,61 @@
 	stroke: #CCC;
 	stroke-width: 2px;
 }
-
 .states {
 	stroke: #000;
 	stroke-width: 0.5px;
 	stroke-linecap: round;
 }
-
 .gratBackground {
-	fill: #D5E3FF;
+	/*fill: #D5E3FF;*/
+	fill:  rgba(254, 242, 214, .3);				
 }
-
 .gratLines {
 	fill: none;
 	stroke: #999;
 	stroke-width: 1px;
 }
-
+/*----------Chart-------------*/
 .chart {
 	float: right;
 	margin: 7px 20px 0 0;
 }
-
 .chartTitle {
-	font-family: sans-serif;
-	font-size: 1.5em;
+	font-family:'Source Sans Pro', sans-serif;
+	font-size: 1.25em;
 	font-weight: bold;
+	
 }
-
 .chartBackground {
-	fill: rgba(128,128,128,.2);
+	fill: rgba(128, 128, 128, .17);
 }
-
 .chartFrame {
 	fill: none;
 	stroke: #999;
 	stroke-width: 3px;
 	shape-rendering: crispEdges;
 }
-
-/*.numbers {
+/*-----------Labels-------------*/
+.labelname {
+	font-size: 15px;
+}
+.infolabel {
+	font-family: 'Source Sans Pro', sans-serif;				
+	position: absolute;
+	height: 55px;
+	min-width: 100px;
+	color: #000;
+	background-color: rgba(247 ,248, 234);
+	/*border: solid thin #fff;*/
+	padding: 5px 10px;
+	/*top: -75px;*/
+	box-shadow: 2px 2px 4px #999;
+}
+.numbers {
 	fill: white;
 	font-family: sans-serif;
-}*/
-
+}
+/*-----------Axis-------------*/
 .axis path,
 .axis line {
 	fill: none;
@@ -67,41 +168,15 @@
 
 .axis text {
 	font-family: sans-serif;
-	font-size: 0.8em;
+	font-size: 0.92em;
 	fill: #999;
 }
 
-.dropdown {
-	position: absolute;
-	top: 30px;
-	left: 40px;
-	z-index: 10;
-	font-family: sans-serif;
-	font-size: 1em;
-	font-weight: bold;
-	padding: 2px;
-	border: 1px solid #999;
-	box-shadow: 2px 2px 4px #999;
-}
 
-option {
-	font-weight: normal;
-}
 
-.infolabel {
-	position: absolute;
-	height: 50px;
-	min-width: 100px;
-	color: #fff;
-	background-color: #000;
-	border: solid thin #fff;
-	padding: 5px 10px;
-	top: -75px;
-}
-
-.infolabel h1 {
+/*.infolabel h1 {
 	margin: 0 20px 0 0;
 	padding: 0;
 	display: inline-block;
 	line-height: 1em;
-}
+}*/
